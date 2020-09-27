@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/grey_rec"
+    android:layout_margin="5dp"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/pdtNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/weightTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pdtNameTv"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:text="@string/weight" />
+
+    <TextView
+        android:id="@+id/weightTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pdtNameTv"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/weightTitle"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:text="@string/weight" />
+
+    <TextView
+        android:id="@+id/priceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weightTitle"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:text="@string/price" />
+
+    <TextView
+        android:id="@+id/priceTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weightTitle"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/priceTitle"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:text="@string/weight" />
+</RelativeLayout>

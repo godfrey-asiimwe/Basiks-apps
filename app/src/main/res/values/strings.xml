@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Basiks</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="action_delete">Delete</string>
+    <string name="weight">Weight : </string>
+    <string name="price">Price :</string>
+    <string name="previous">Buy</string>
+    <string name="help">Help</string>
+    <string name="new_game"></string>
+    <string name="logout">Log out</string>
+</resources>
