@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //starting the profile activity
                         finish();
-                        startActivity(new Intent(getApplicationContext(), ProductActivity.class));
+                        startActivity(new Intent(getApplicationContext(), DashBoard.class));
                     } else {
                         Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
                     }
