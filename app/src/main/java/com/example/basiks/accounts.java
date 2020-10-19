@@ -1,29 +1,25 @@
 package com.example.basiks;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+
+import com.example.basiks.adapter.AccountAdapter;
+import com.example.basiks.helper.DividerItemDecoration;
+import com.example.basiks.model.Account;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
+import android.util.Printer;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
-
-import com.example.basiks.adapter.MessagesAdapter;
-import com.example.basiks.adapter.ProductAdapter;
-import com.example.basiks.helper.DividerItemDecoration;
-import com.example.basiks.model.BProduct;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,30 +35,29 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductActivity extends AppCompatActivity implements ProductAdapter.ProductAdapterListener {
+public class accounts extends AppCompatActivity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
-    private RecyclerView kesProductPrice;
-    private ProductAdapter pdapter;
-    public Button buy;
+    private RecyclerView paymentRecycler;
+    private AccountAdapter pdapter;
 
     int id;
-    String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product);
+        setContentView(R.layout.activity_accounts);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+       id=SharedPrefManager.getInstance(this).getUser().getId();
 
 
-        id=SharedPrefManager.getInstance(this).getUser().getId();
 
         //Make call to AsyncTask
-        new AsyncFetch().execute();
-
-
+        new accounts.AsyncFetch().execute();
     }
 
     @Override
@@ -74,12 +69,12 @@ public class ProductActivity extends AppCompatActivity implements ProductAdapter
 
     public void logout(){
         finish();
-        startActivity(new Intent(ProductActivity.this, MainActivity.class));
+        startActivity(new Intent(accounts.this, MainActivity.class));
     }
 
     public void backToDashBoard(){
         finish();
-        startActivity(new Intent(ProductActivity.this, DashBoard.class));
+        startActivity(new Intent(accounts.this, DashBoard.class));
     }
 
     @Override
@@ -89,7 +84,6 @@ public class ProductActivity extends AppCompatActivity implements ProductAdapter
             case R.id.new_game:
                 //newGame();
                 return true;
-
             case R.id.backToDash:
                 backToDashBoard();
                 return true;
@@ -102,14 +96,9 @@ public class ProductActivity extends AppCompatActivity implements ProductAdapter
         }
     }
 
-    @Override
-    public void onItemClicked(int position) {
-        Toast.makeText(getApplicationContext(), "Unable to fetch json: " + position, Toast.LENGTH_LONG).show();
-    }
 
-
-    private class AsyncFetch extends AsyncTask<String, String, String> implements ProductAdapter.ProductAdapterListener {
-        ProgressDialog pdLoading = new ProgressDialog(ProductActivity.this);
+    public class AsyncFetch extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(accounts.this);
         HttpURLConnection conn;
         URL url = null;
 
@@ -128,9 +117,11 @@ public class ProductActivity extends AppCompatActivity implements ProductAdapter
         protected String doInBackground(String... params) {
             try {
 
+
+
                 // Enter URL address where your json file resides
                 // Even you can make call to php file which returns json data
-                url = new URL("http://demo.basiksservices.com/api/products.php");
+                url = new URL("http://demo.basiksservices.com/api/purchases.php?id="+id);
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -193,7 +184,7 @@ public class ProductActivity extends AppCompatActivity implements ProductAdapter
 
             //this method will be running on UI thread
             pdLoading.dismiss();
-            List<BProduct> data=new ArrayList<>();
+            List<Account> data=new ArrayList<>();
 
             pdLoading.dismiss();
             try {
@@ -203,42 +194,37 @@ public class ProductActivity extends AppCompatActivity implements ProductAdapter
                 // Extract data from json and store into ArrayList as class objects
                 for(int i=0;i<jArray.length();i++){
                     JSONObject json_data = jArray.getJSONObject(i);
-                    BProduct productData;
-                    productData = new BProduct();
-                    userid=json_data.getString("id");
-                    productData.setImage(json_data.getString("image"));
-                    productData.setName(json_data.getString("name"));
-                    productData.setInfo( json_data.getString("info"));
-                    productData.setCategory( json_data.getString("category"));
-                    productData.setPrice(String.format(json_data.getString("price"),3));
+                    Account accountData;
+                    accountData = new Account();
 
-                    data.add(productData);
+                    accountData.setAmount(json_data.getString("amount"));
+                    accountData.setBill_no(json_data.getString("bill_no"));
+                    accountData.setDate(json_data.getString("entry_date"));
+                    accountData.setName(json_data.getString("name"));
+                    accountData.setStatus(json_data.getString("status"));
+                    accountData.setUser_no(json_data.getString("user_no"));
+                    accountData.setStockist(json_data.getString("stockist"));
+
+                    data.add(accountData);
                 }
 
                 // Setup and Handover data to recyclerview
-                kesProductPrice = (RecyclerView)findViewById(R.id.recycler_view);
-                pdapter = new ProductAdapter(ProductActivity.this, data,this);
+                paymentRecycler = (RecyclerView)findViewById(R.id.recycler_view3);
+                pdapter = new AccountAdapter(accounts.this, data);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                kesProductPrice.setLayoutManager(mLayoutManager);
-                kesProductPrice.setItemAnimator(new DefaultItemAnimator());
-                kesProductPrice.addItemDecoration(new DividerItemDecoration(ProductActivity.this, LinearLayoutManager.VERTICAL));
-                kesProductPrice.setAdapter(pdapter);
-                kesProductPrice.setLayoutManager(new LinearLayoutManager(ProductActivity.this));
+                paymentRecycler.setLayoutManager(mLayoutManager);
+                paymentRecycler.setItemAnimator(new DefaultItemAnimator());
+                paymentRecycler.addItemDecoration(new DividerItemDecoration(accounts.this, LinearLayoutManager.VERTICAL));
+                paymentRecycler.setAdapter(pdapter);
+                paymentRecycler.setLayoutManager(new LinearLayoutManager(accounts.this));
 
                 //setOnClickListener()
 
 
             } catch (JSONException e) {
-                Toast.makeText(ProductActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(accounts.this, e.toString(), Toast.LENGTH_LONG).show();
             }
 
-        }
-        
-        @Override
-        public void onItemClicked(int position) {
-            Uri uri = Uri.parse("http://demo.basiksservices.com/api/purchase.php?id="+(userid)+"&userid="+id); // missing 'http://' will cause crashed
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
         }
     }
 }

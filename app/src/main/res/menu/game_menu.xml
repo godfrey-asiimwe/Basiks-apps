@@ -4,8 +4,8 @@
     <item android:id="@+id/new_game"
         android:title="@string/new_game"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/help"
-        android:title="@string/help" />
+    <item android:id="@+id/backToDash"
+        android:title="@string/Dashboard" />
     <item android:id="@+id/logout"
         android:title="@string/logout" />
 </menu>

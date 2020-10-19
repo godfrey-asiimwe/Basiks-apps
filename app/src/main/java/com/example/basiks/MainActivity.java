@@ -1,7 +1,6 @@
 package com.example.basiks;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,10 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -33,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
 
         //if the user is already logged in we will directly start the profile activity
-       /* if (SharedPrefManager.getInstance(this).isLoggedIn()) {
+       if (SharedPrefManager.getInstance(this).isLoggedIn()) {
             finish();
-            startActivity(new Intent(this, ProductActivity.class));
+            startActivity(new Intent(this, DashBoard.class));
             return;
-        }*/
+        }
 
         //if user presses on login
         //calling the method login

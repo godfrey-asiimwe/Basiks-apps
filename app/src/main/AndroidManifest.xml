@@ -3,6 +3,9 @@
     package="com.example.basiks">
     <!-- adding internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -13,9 +16,21 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".NetWork"
+            android:label="@string/title_activity_net_work"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".accounts"
+            android:label="@string/title_activity_accounts"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Payments"
+            android:label="@string/title_activity_payments"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".DashBoard"
             android:label="@string/title_activity_dash_board"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ProductActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".LoginActivity" />
